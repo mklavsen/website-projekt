@@ -1,0 +1,71 @@
+import  {fetchAftaltkamp} from "../data/Aftaltkamp";
+import { useEffect, useState } from "react";
+import { Aftaltkamp } from "../types";
+
+type AftaltkampListProps = {
+  belt?: string | null; // optional: if undefined, show all
+};
+
+export const AftaltkampList = ({ belt }: AftaltkampListProps) => {
+    const [aftaltkampe, setAftaltkampe] = useState<Aftaltkamp[]>([]);
+
+    useEffect(() => {
+        fetchAftaltkamp().then(setAftaltkampe);
+    }, []);
+
+    const filteredList = belt
+    ? aftaltkampe.filter((p) => p.BælteGrad.toString() === belt)
+    : aftaltkampe;
+console.log("kamp", { belt, aftaltkampe, filteredList });
+
+    const groupByOmråde = (list: Aftaltkamp[]) => {
+        return list.reduce<Record<string, Aftaltkamp[]>>((acc, technique) => {
+          const area = technique.Kategori || "Ukendt Kategori";
+          if (!acc[area]) acc[area] = [];
+          acc[area].push(technique);
+          return acc;
+        }, {});
+      };
+
+    const groupedByOmråde = groupByOmråde(filteredList);
+console.log("Grouped", groupedByOmråde);
+
+    return (
+        <div className="space-y-8">
+
+        {Object.entries(groupedByOmråde).map(([Kategori, aftaltkampListe]) => (
+            <div key={Kategori} className="overflow-x-auto">
+            {/* Displaying the area title */}
+            <h2 className="text-lg font-bold mb-2">{Kategori}</h2>
+
+            {/* Displaying the techniques in a table */}
+            <table className="w-full border border-gray-300 text-xs sm:text-sm md:text-base">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="w-1/4 p-2 border">Nummer</th>
+                    <th className="w-1/4 p-2 border">Tælling</th>
+                    <th className="w-1/4 p-2 border">Angriber Koreansk</th>
+                    <th className="w-1/4 p-2 border">Angriber Dansk</th>
+                    <th className="w-1/4 p-2 border">Forsvarer Koreansk</th>
+                    <th className="w-1/4 p-2 border">Forsvarer Dansk</th>
+                </tr>
+                </thead>
+                <tbody>
+                {aftaltkampListe.map((a, index) => (
+                    <tr key={index} className="odd:bg-white even:bg-gray-50">
+                        <td className="p-2 border">{a.Nummer}</td>
+                        <td className="p-2 border">{a.Tælling}</td>
+                        <td className="p-2 border">{a.Angriber_Koreansk}</td>
+                        <td className="p-2 border">{a.Angriber_Dansk}</td>
+                        <td className="p-2 border">{a.Forsvarer_Koreansk}</td>
+                        <td className="p-2 border">{a.Forsvarer_Dansk}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+            </div>
+        ))}
+        </div>
+    );
+
+}

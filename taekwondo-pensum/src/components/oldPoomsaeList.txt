@@ -1,0 +1,44 @@
+import { useEffect, useState } from "react";
+import { fetchPoomsae } from "../data/Poomsae";
+import { Poomsae } from "../types";
+import   "../styles/PoomsaeTable.css"; // Assuming you have a CSS file for styling
+
+
+export const PoomsaeList = () => {
+  const [poomsaeList, setPoomsaeList] = useState<Poomsae[]>([]);
+
+  useEffect(() => {
+    fetchPoomsae().then(setPoomsaeList);
+  }, []);
+  return (
+    <div>
+      {poomsaeList.map((poomsae, index) => (
+        <div key={index}>
+          <h2 className="poomsae-heading">{poomsae.Poomsae} – {poomsae.BælteGrad} kup</h2>
+          <table className="poomsae-table">
+            <thead>
+              <tr>
+                <th>Tælling</th>
+                <th>Tælling Koreansk</th>
+                <th>Dansk beskrivelse</th>
+                <th>Koreansk teknik</th>
+                <th>Koreansk stand</th>
+              </tr>
+            </thead>
+            <tbody>
+              {poomsae.Tælling.map((_, i) => (
+                <tr key={i}>
+                  <td>{poomsae.Tælling[i]}</td>
+                  <td>{poomsae.Tælling_Koreansk?.[i] ?? ""}</td>
+                  <td>{poomsae.Dansk_beskrivelse?.[i] ?? ""}</td>
+                  <td>{poomsae.Koreansk_teknik?.[i] ?? ""}</td>
+                  <td>{poomsae.Koreansk_stand?.[i] ?? ""}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  );
+};

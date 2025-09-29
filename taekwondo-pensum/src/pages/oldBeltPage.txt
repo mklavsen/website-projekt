@@ -1,0 +1,57 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { GrundTeknik } from "../types";
+import { fetchPensum } from "../data/pensum";
+
+const BeltPage = () => {
+  const { beltId } = useParams<{ beltId: string }>();
+  const [techniques, setTechniques] = useState<GrundTeknik[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPensum().then((data) => {
+      setTechniques(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (!beltId) return <p>No belt ID provided.</p>;
+
+  const filtered = techniques.filter(
+    (t) => String(t.BælteGrad) === beltId
+  );
+
+  return (
+    <div style={{ padding: "1rem" }}>
+      <h2>{beltId} kup</h2>
+
+      {filtered.length === 0 ? (
+        <p>Ingen teknikker fundet for dette bælte.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Koreansk</th>
+              <th>Dansk</th>
+              <th>Område</th>
+              <th>Bæltegrad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((t, i) => (
+              <tr key={i}>
+                <td>{t.Teknik_Koreansk}</td>
+                <td>{t.Teknik_Dansk}</td>
+                <td>{t.Område}</td>
+                <td>{t.BælteGrad}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+};
+
+export default BeltPage;

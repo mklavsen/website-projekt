@@ -1,0 +1,82 @@
+import { fetchPensum } from "../data/pensum";
+import { useEffect, useState } from "react";
+import { GrundTeknik } from "../types";
+import { getBeltButtonStyle } from "../styles/BeltStyle";
+
+export const PensumList = () => {
+  const [grundteknikker, setGrundteknikker] = useState<GrundTeknik[]>([]);
+  const [selectedBelt, setSelectedBelt] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    fetchPensum().then(setGrundteknikker);
+  }, []);
+
+  const groupedBelts = grundteknikker.reduce<Record<string, GrundTeknik[]>>((acc, technique) => {
+    const grade = technique.BælteGrad;
+    if (!acc[grade]) acc[grade] = [];
+    acc[grade].push(technique);
+    return acc;
+  }, {});
+
+  
+  const beltGrades = Object.keys(groupedBelts).sort((a, b) => {
+    // Custom sort if needed, otherwise lexicographical
+    return parseInt(a) - parseInt(b);
+  });
+  
+  const filteredTechniques = selectedBelt ? groupedBelts[selectedBelt] || [] : grundteknikker;
+
+
+
+
+  return (
+    <div>
+      {/* 🔘 Belt Filter Buttons */}
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={() => setSelectedBelt(null)}
+            style={{
+                marginRight: 8,
+                padding: "0.5rem 1rem",
+                border: "1px solid #ccc",
+                backgroundColor: selectedBelt === null ? "#ddd" : "#fff",
+            }}
+            >
+          Alle bæltegrader
+        </button>
+        {beltGrades.map((belt) => (
+          <button
+            key={belt}
+            onClick={() => setSelectedBelt(belt)}
+            style={getBeltButtonStyle(belt, selectedBelt)
+            }
+          >
+            {belt}. kup
+          </button>
+        ))}
+      </div>
+
+      {/* 📋 Table */}
+      <table>
+        <thead>
+          <tr>
+            <th>Koreansk</th>
+            <th>Dansk</th>
+            <th>Område</th>
+            <th>Bæltegrad</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTechniques.map((g, index) => (
+            <tr key={index}>
+              <td>{g.Teknik_Koreansk}</td>
+              <td>{g.Teknik_Dansk}</td>
+              <td>{g.Område}</td>
+              <td>{g.BælteGrad}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};

@@ -1,0 +1,15 @@
+import { PensumList } from "@components/PensumList";
+import { PoomsaeList } from "@components/PoomsaeList";
+import "./App.css";
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Taekwondo Pensum</h1>
+      <PensumList />
+      <PoomsaeList />
+    </div>
+  );
+}
+
+export default App;
