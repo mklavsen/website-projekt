@@ -1,6 +1,6 @@
 // 📄 PoomsaeList.tsx
 import { useEffect, useState } from "react";
-import { Poomsae } from "../types";
+import type { Poomsae } from "../types";
 import { fetchPoomsae } from "../data/Poomsae"; // <-- Your fetcher
 import "../styles/PoomsaeTable.css";
 import { poomsaeVideos } from "../data/poomsaeVideos";

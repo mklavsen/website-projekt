@@ -1,5 +1,5 @@
 
-import { Aftaltkamp } from "../types";
+import type { Aftaltkamp } from "../types";
 
 export async function fetchAftaltkamp(): Promise<Aftaltkamp[]> {
   const response = await fetch("https://opensheet.elk.sh/1dqfr76YA3uXOGH2BK1bflf9pcV4MkH5r6NOcv27oFB8/Aftaltkamp");

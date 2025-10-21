@@ -1,4 +1,4 @@
-import { Pensum } from "../types";
+import type { Pensum } from "../types";
 
 export async function fetchPensum(): Promise<Pensum[]> {
     const response = await fetch(

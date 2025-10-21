@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPoomsae } from "../data/Poomsae";
-import { Poomsae } from "../types";
+import type { Poomsae } from "../types";
 
 interface Question {
   questionText: string;

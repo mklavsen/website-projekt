@@ -1,7 +1,7 @@
 // 📄 PensumList.tsx
 import { fetchGrundTeknik } from "../data/GrundTeknik";
 import { useEffect, useState } from "react";
-import { GrundTeknik } from "../types";
+import type { GrundTeknik } from "../types";
 
 type GrundTeknikListProps = {
   belt?: string | null; // optional: if undefined, show all

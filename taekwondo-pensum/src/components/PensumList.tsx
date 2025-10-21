@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pensum } from "../types";
+import type { Pensum } from "../types";
 import { fetchPensum } from "../data/Pensum";
 
 type PensumListProps = {

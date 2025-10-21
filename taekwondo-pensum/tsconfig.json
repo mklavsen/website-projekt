@@ -4,8 +4,8 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "skipLibCheck": true,
-    "moduleResolution": "node",
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
@@ -15,11 +15,9 @@
     "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./src",
-    "paths": {
-      "@components/*": ["components/*"]
-    }
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "types": ["vite/client"]
   },
   "include": ["src"]
-
 }

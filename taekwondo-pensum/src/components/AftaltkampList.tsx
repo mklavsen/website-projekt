@@ -1,6 +1,6 @@
 import  {fetchAftaltkamp} from "../data/Aftaltkamp";
 import { useEffect, useState } from "react";
-import { Aftaltkamp } from "../types";
+import type { Aftaltkamp } from "../types";
 import { VideoPlayer } from "./videoPlayer";
 import { aftaltkampVideoer } from "../data/aftaltkampVideoer";
 import {Section_sammenfold} from "./Section_sammenfold"

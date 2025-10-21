@@ -1,4 +1,4 @@
-import { Poomsae } from "../types";
+import type { Poomsae } from "../types";
 
 function clean(value: string | undefined): string | null {
   if (!value) return null;
